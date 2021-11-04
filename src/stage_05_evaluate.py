@@ -37,10 +37,13 @@ def evaluate(config_path, params_path):
     
     model_dir = config["artifacts"]["model_dir"]
     model_filename = config["artifacts"]["model_filename"]
+    model_filename1 = config["artifacts"]["model_filename1"]
     
     model_path = os.path.join( artifacts_dir, model_dir, model_filename)
+    model_path1 = os.path.join( artifacts_dir, model_dir, model_filename1)
 
     lr = joblib.load(model_path)
+    sr = joblib.load(model_path1)
 
     predicted_values = lr.predict(test_x)
     rmse, mae, r2 = evaluate_metrics(test_y, predicted_values)
@@ -60,6 +63,22 @@ def evaluate(config_path, params_path):
     }
 
     save_reports(report = scores, report_path=scores_filepath)
+
+    predicted_values = sr.predict(test_x)
+    rmse, mae, r2 = evaluate_metrics(test_y, predicted_values)
+    
+    
+    scores_filename1 = config["artifacts"]["scores1"]
+
+    scores_filepath1 = os.path.join(scores_dir_path, scores_filename1)
+
+    scores = {
+        "rmse" : rmse,
+        "mae" : mae,
+        "r2" : r2,
+    }
+
+    save_reports(report = scores, report_path=scores_filepath1)
 
 
 

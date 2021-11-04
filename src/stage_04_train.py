@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
+from sklearn.svm import SVR
 import joblib
 
 def train(config_path, params_path):
@@ -29,14 +30,19 @@ def train(config_path, params_path):
 
     lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=random_state)
     lr.fit(train_x, train_y)
+    sr = SVR()
+    sr.fit(train_x, train_y)
     
     model_dir = config["artifacts"]["model_dir"]
     model_filename = config["artifacts"]["model_filename"]
+    model_filename1 = config["artifacts"]["model_filename1"]
     model_dir = os.path.join(artifacts_dir, model_dir)
     create_directory([model_dir])
     model_path = os.path.join( model_dir, model_filename)
+    model_path1 = os.path.join( model_dir, model_filename1)
 
     joblib.dump(lr, model_path)
+    joblib.dump(sr, model_path1)
 
     
 

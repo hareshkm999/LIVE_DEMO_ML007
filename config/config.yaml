@@ -11,9 +11,12 @@ artifacts:
 
   model_dir: model_dir
   model_filename: Elasticnet.model
+  model_filename1: SVR.model
 
   reports_dir: reports_dir
   scores: scores.json
+  scores1: scores1.json
+
 
 
   

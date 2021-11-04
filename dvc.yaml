@@ -25,9 +25,9 @@ stages:
       - artifacts/data_dir/test.csv
 
   train:
-    cmd: python src/stage_03_train.py --config=config/config.yaml --params=params.yaml
+    cmd: python src/stage_04_train.py --config=config/config.yaml --params=params.yaml
     deps:
-      - src/stage_03_train.py
+      - src/stage_04_train.py
       - src/utils/all_utils.py
       - config/config.yaml
       - artifacts/data_dir/train.csv
@@ -38,17 +38,21 @@ stages:
       - model_params.ElasticNet.l1_ratio
     outs:
       - artifacts/model_dir/Elasticnet.model
+      - artifacts/model_dir/SVR.model
+      
 
   
   evaluate:
-    cmd: python src/stage_04_evaluate.py --config=config/config.yaml --params=params.yaml
+    cmd: python src/stage_05_evaluate.py --config=config/config.yaml --params=params.yaml
     deps:
-      - src/stage_04_evaluate.py
+      - src/stage_05_evaluate.py
       - src/utils/all_utils.py
       - config/config.yaml
       - artifacts/data_dir/test.csv
       - artifacts/model_dir/Elasticnet.model
+      - artifacts/model_dir/SVR.model
 
     
     outs:
       - artifacts/reports_dir/scores.json
+      - artifacts/reports_dir/scores1.json
